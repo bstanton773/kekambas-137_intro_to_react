@@ -2,11 +2,19 @@
 
 
 export default function App(){
-    // return React.createElement('div', {}, [React.createElement('h1', {}, 'Hello World'), React.createElement('h4', {}, 'By Brian Stanton')])
+    const username:string = 'brians';
+    const isLoggedIn:boolean = true;
+
+    const posts: {id:number, title:string}[] = [
+        {id: 1, title: 'Happy Monday!'},
+        {id: 2, title: 'React rules!'},
+        {id: 3, title: 'How was your weekend?'}
+    ]
+
     return (
         <div>
-            <h1>Hello World</h1>
-            <h4>By Brian Stanton</h4>
+            <h1>{ isLoggedIn ? 'Hello ' + username : 'Hello and Welcome' }</h1>
+            { posts.map( p =>  <h4 key={p.id}>{p.title}</h4> ) }
         </div>
     )
 }
