@@ -1,3 +1,6 @@
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Container from 'react-bootstrap/Container';
 
 type NavigationProps = {
     isLoggedIn: boolean
@@ -6,21 +9,26 @@ type NavigationProps = {
 export default function Navigation({ isLoggedIn }: NavigationProps) {
     console.log(isLoggedIn);
     return (
-        <div>
-            <h5>Kekambas Blog</h5>
-            <ol>
-                { isLoggedIn ? (
-                    <>
-                        <li>Create Post</li>
-                        <li>Log Out</li>
-                    </>
-                ) : (
-                    <>
-                        <li>Log In</li>
-                        <li>Sign Up</li>
-                    </>
-                )}
-            </ol>
-        </div>
+        <Navbar expand='lg' bg='dark' data-bs-theme='dark'>
+            <Container>
+                <Navbar.Brand href='/'>Kekambas Blog</Navbar.Brand>
+                <Navbar.Toggle aria-controls='nav-collapse' />
+                <Navbar.Collapse id="nav-collapse">
+                    <Nav className='me-auto'>
+                        { isLoggedIn ? (
+                            <>
+                                <Nav.Link href='/'>Create Post</Nav.Link>
+                                <Nav.Link href='/'>Log Out</Nav.Link>
+                            </>
+                        ) : (
+                            <>
+                                <Nav.Link href='/'>Sign Up</Nav.Link>
+                                <Nav.Link href='/'>Log In</Nav.Link>
+                            </>
+                        )}
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     )
 }
