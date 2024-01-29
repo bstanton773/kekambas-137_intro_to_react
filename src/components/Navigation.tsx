@@ -7,7 +7,7 @@ type NavigationProps = {
 }
 
 export default function Navigation({ isLoggedIn }: NavigationProps) {
-    console.log(isLoggedIn);
+    // console.log(isLoggedIn);
     return (
         <Navbar expand='lg' bg='dark' data-bs-theme='dark'>
             <Container>
