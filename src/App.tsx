@@ -1,4 +1,5 @@
 // import React from 'react';
+import Navigation from './components/Navigation';
 
 
 export default function App(){
@@ -13,6 +14,7 @@ export default function App(){
 
     return (
         <div>
+            <Navigation isLoggedIn={isLoggedIn} />
             <h1>{ isLoggedIn ? 'Hello ' + username : 'Hello and Welcome' }</h1>
             { posts.map( p =>  <h4 key={p.id}>{p.title}</h4> ) }
         </div>
