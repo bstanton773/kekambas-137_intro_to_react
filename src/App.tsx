@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Container from 'react-bootstrap/Container';
 import Home from './views/Home';
+import Login from './views/Login';
+import SignUp from './views/SignUp';
 
 
 
@@ -21,7 +24,11 @@ export default function App(){
         <div>
             <Navigation isLoggedIn={isLoggedIn} />
             <Container>
-                <Home isLoggedIn={isLoggedIn} handleClick={handleClick} />
+                <Routes>
+                    <Route path='/' element={<Home isLoggedIn={isLoggedIn} handleClick={handleClick} />} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/signup' element={<SignUp />} />
+                </Routes>
             </Container>
         </div>
     )
