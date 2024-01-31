@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { UserFormDataType, CategoryType } from '../types';
+import { register } from '../lib/apiWrapper';
+
 
 type SignUpProps = {
     flashMessage: (newMessage:string|null, newCategory:CategoryType|null)=>void
@@ -28,12 +30,17 @@ export default function SignUp({ flashMessage }: SignUpProps) {
         setUserFormData({...userFormData, [e.target.name]: e.target.value})
     }
 
-    const handleFormSubmit = (e:React.FormEvent) => {
+    const handleFormSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
 
-        console.log(userFormData);
-        flashMessage('You have submitted the Sign Up Form', 'success');
-        navigate('/');
+        let response = await register(userFormData);
+        if (response.error){
+            flashMessage(response.error, 'danger')
+        } else {
+            let newUser = response.data
+            flashMessage(`Congrats ${newUser?.firstName} ${newUser?.lastName}, you have signed up with the username: ${newUser?.username}`, 'success');
+            navigate('/login');
+        }
     }
 
     const disableSubmit = userFormData.password.length < 5 || userFormData.password !== userFormData.confirmPass
