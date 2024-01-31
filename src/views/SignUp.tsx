@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { UserFormDataType } from '../types';
+import { UserFormDataType, CategoryType } from '../types';
 
-type SignUpProps = {}
+type SignUpProps = {
+    flashMessage: (newMessage:string|null, newCategory:CategoryType|null)=>void
+}
 
-export default function SignUp({}: SignUpProps) {
+export default function SignUp({ flashMessage }: SignUpProps) {
 
     const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ export default function SignUp({}: SignUpProps) {
         e.preventDefault();
 
         console.log(userFormData);
-
+        flashMessage('You have submitted the Sign Up Form', 'success');
         navigate('/');
     }
 

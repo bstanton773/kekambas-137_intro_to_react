@@ -7,3 +7,5 @@ export type UserFormDataType = {
     password:string,
     confirmPass:string
 }
+
+export type CategoryType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light'

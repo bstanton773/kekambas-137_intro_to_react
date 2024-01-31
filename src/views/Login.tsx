@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { UserFormDataType } from '../types';
+import { UserFormDataType, CategoryType } from '../types';
 
 
-type LoginProps = {}
+type LoginProps = {
+    flashMessage: (newMessage:string|null, newCategory:CategoryType|null) => void
+}
 
-export default function Login({}: LoginProps) {
+export default function Login({ flashMessage }: LoginProps) {
     const navigate = useNavigate();
 
     const [userFormData, setUserFormData] = useState<Partial<UserFormDataType>>({ username: '', password: ''})
@@ -21,7 +23,7 @@ export default function Login({}: LoginProps) {
         e.preventDefault();
 
         console.log(userFormData);
-
+        flashMessage('You submitted the Login Form', 'danger')
         navigate('/')
     }
 
