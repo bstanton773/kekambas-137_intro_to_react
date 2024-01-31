@@ -3,15 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { UserFormDataType, CategoryType } from '../types';
-import { login } from '../lib/apiWrapper';
+import { UserFormDataType, CategoryType, UserType } from '../types';
+import { login, getMe } from '../lib/apiWrapper';
 
 
 type LoginProps = {
-    flashMessage: (newMessage:string|null, newCategory:CategoryType|null) => void
+    flashMessage: (newMessage:string|null, newCategory:CategoryType|null) => void,
+    logUserIn: (user: UserType) => void
 }
 
-export default function Login({ flashMessage }: LoginProps) {
+export default function Login({ flashMessage, logUserIn }: LoginProps) {
     const navigate = useNavigate();
 
     const [userFormData, setUserFormData] = useState<Partial<UserFormDataType>>({ username: '', password: ''})
@@ -27,7 +28,10 @@ export default function Login({ flashMessage }: LoginProps) {
         if (response.error){
             flashMessage(response.error, 'danger')
         } else {
-            console.log(response.data)
+            localStorage.setItem('token', response.data?.token as string)
+            localStorage.setItem('tokenExp', response.data?.tokenExpiration as string)
+            let userResponse = await getMe(response.data?.token as string)
+            logUserIn(userResponse.data!)
             flashMessage('You have successfully logged in', 'success')
             navigate('/')
         }

@@ -6,21 +6,21 @@ import Home from './views/Home';
 import Login from './views/Login';
 import SignUp from './views/SignUp';
 import AlertMessage from './components/AlertMessage';
-import { CategoryType } from './types';
+import { CategoryType, UserType } from './types';
 
 
 
 export default function App(){
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loggedInUser, setLoggedInUser] = useState<UserType|null>(null);
 
     const [message, setMessage] = useState<string|null>(null)
     const [category, setCategory] = useState<CategoryType|null>(null)
 
-
-    const handleClick = () => {
-        // console.log('The button has been clicked!');
-        setIsLoggedIn(!isLoggedIn)
+    const logUserIn = (user:UserType) => {
+        setIsLoggedIn(true);
+        setLoggedInUser(user)
     }
 
     const flashMessage = (newMessage:string|null, newCategory:CategoryType|null) => {
@@ -34,8 +34,8 @@ export default function App(){
             <Container>
                 {message && <AlertMessage message={message} category={category} flashMessage={flashMessage}/>}
                 <Routes>
-                    <Route path='/' element={<Home isLoggedIn={isLoggedIn} handleClick={handleClick} />} />
-                    <Route path='/login' element={<Login flashMessage={flashMessage} />} />
+                    <Route path='/' element={<Home isLoggedIn={isLoggedIn} currentUser={loggedInUser} />} />
+                    <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn}/>} />
                     <Route path='/signup' element={<SignUp flashMessage={flashMessage} />} />
                 </Routes>
             </Container>
