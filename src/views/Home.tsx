@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import PostCard from '../components/PostCard';
 import PostForm from '../components/PostForm';
 import { UserType } from '../types';
