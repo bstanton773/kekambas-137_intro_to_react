@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { UserFormDataType, CategoryType } from '../types';
+import { login } from '../lib/apiWrapper';
 
 
 type LoginProps = {
@@ -19,12 +20,17 @@ export default function Login({ flashMessage }: LoginProps) {
         setUserFormData({...userFormData, [e.target.name]: e.target.value})
     }
 
-    const handleFormSubmit = (e:React.FormEvent) => {
+    const handleFormSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
 
-        console.log(userFormData);
-        flashMessage('You submitted the Login Form', 'danger')
-        navigate('/')
+        let response = await login(userFormData.username!, userFormData.password!)
+        if (response.error){
+            flashMessage(response.error, 'danger')
+        } else {
+            console.log(response.data)
+            flashMessage('You have successfully logged in', 'success')
+            navigate('/')
+        }
     }
 
 

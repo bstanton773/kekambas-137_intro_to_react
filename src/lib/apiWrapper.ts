@@ -1,13 +1,21 @@
 import axios from 'axios';
-import { UserFormDataType, UserType } from '../types'
+import { TokenType, UserFormDataType, UserType } from '../types';
 
 
 const baseURL: string = 'https://kekambas-137-api.onrender.com';
 const userEndpoint: string = '/users';
+const tokenEndpoint: string = '/token';
 
 
 const apiClientNoAuth = () => axios.create({
     baseURL: baseURL
+})
+
+const apiClientBasicAuth = (username:string, password:string) => axios.create({
+    baseURL: baseURL,
+    headers: {
+        Authorization: 'Basic ' + btoa(`${username}:${password}`)
+    }
 })
 
 type APIResponse<T> = {
@@ -32,6 +40,24 @@ async function register(newUserData:UserFormDataType): Promise<APIResponse<UserT
 }
 
 
+async function login(username:string, password:string): Promise<APIResponse<TokenType>> {
+    let error;
+    let data;
+    try{
+        const response = await apiClientBasicAuth(username, password).get(tokenEndpoint);
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { error, data }
+}
+
+
 export {
-    register
+    register,
+    login,
 }
