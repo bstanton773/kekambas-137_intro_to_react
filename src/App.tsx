@@ -62,7 +62,7 @@ export default function App(){
                     <Route path='/' element={<Home isLoggedIn={isLoggedIn} currentUser={loggedInUser} flashMessage={flashMessage} />} />
                     <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn}/>} />
                     <Route path='/signup' element={<SignUp flashMessage={flashMessage} />} />
-                    <Route path='/edit/:postId' element={<EditPost />} />
+                    <Route path='/edit/:postId' element={<EditPost currentUser={loggedInUser} flashMessage={flashMessage} />} />
                 </Routes>
             </Container>
         </div>

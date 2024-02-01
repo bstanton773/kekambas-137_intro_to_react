@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getPostById } from '../lib/apiWrapper';
-import { PostFormDataType } from '../types';
+import { CategoryType, PostFormDataType, UserType } from '../types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 
 
-type Props = {}
+type EditPostProps = {
+    currentUser: UserType|null,
+    flashMessage: (message:string, category:CategoryType) => void
+}
 
-export default function EditPost({}: Props) {
+export default function EditPost({ currentUser, flashMessage }: EditPostProps) {
     const { postId } = useParams();
+    const navigate = useNavigate();
 
     const [postToEditData, setPostToEditData] = useState<PostFormDataType>({title:'', body:''})
     
@@ -18,10 +22,16 @@ export default function EditPost({}: Props) {
         async function getPost(){
             let response = await getPostById(postId!);
             if (response.error){
-                console.log(response.error);
+                flashMessage(response.error, 'danger');
+                navigate('/')
             } else if (response.data) {
                 const postToEdit = response.data
-                setPostToEditData({ title: postToEdit.title, body: postToEdit.body})
+                if (postToEdit.userId !== currentUser?.id){
+                    flashMessage('You do not have permission to edit this post', 'danger');
+                    navigate('/')
+                } else {
+                    setPostToEditData({ title: postToEdit.title, body: postToEdit.body})
+                }
             }
         }
         getPost();

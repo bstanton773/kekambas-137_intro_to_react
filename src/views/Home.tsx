@@ -22,7 +22,6 @@ export default function Home({ isLoggedIn, currentUser, flashMessage }: HomeProp
     useEffect( () => {
         async function fetchData(){
             const response = await getAllPosts();
-            console.log(response);
             if (response.data){
                 let posts = response.data;
                 posts.sort( (a, b) => (new Date(a.dateCreated) > new Date(b.dateCreated)) ? -1 : 1)
