@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getPostById } from '../lib/apiWrapper';
+import { getPostById, editPostById } from '../lib/apiWrapper';
 import { CategoryType, PostFormDataType, UserType } from '../types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -41,13 +41,25 @@ export default function EditPost({ currentUser, flashMessage }: EditPostProps) {
         setPostToEditData({...postToEditData, [event.target.name]: event.target.value})
     }
 
+    const handleFormSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const token = localStorage.getItem('token') || ''
+        const response = await editPostById(token, postId!, postToEditData);
+        if (response.error){
+            flashMessage(response.error, 'danger');
+        } else {
+            flashMessage(`${response.data?.title} has been updated`, 'success');
+            navigate('/')
+        }
+    }
+
 
     return (
         <>
             <h1 className="text-center">Edit Post</h1>
             <Card>
                 <Card.Body>
-                    <Form>
+                    <Form onSubmit={handleFormSubmit}>
                         <Form.Label>Title</Form.Label>
                         <Form.Control name='title' value={postToEditData.title} onChange={handleInputChange} />
                         <Form.Label>Body</Form.Label>
