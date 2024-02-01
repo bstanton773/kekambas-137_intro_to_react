@@ -33,7 +33,7 @@ export default function Home({ isLoggedIn, currentUser }: HomeProps) {
 
     return (
         <>
-            <h1>{ isLoggedIn ? 'Welcome back ' + currentUser!.username : 'Hello and Welcome' }</h1>
+            <h1>{ isLoggedIn && currentUser?.username ? 'Welcome back ' + currentUser.username : 'Hello and Welcome' }</h1>
             <PostForm handleChange={handleInputChange} newPost={newPost} handleFormSubmit={handleFormSubmit} />
             { posts.map( p =>  <PostCard post={p} key={p.id} /> ) }
         </>

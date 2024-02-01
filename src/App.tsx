@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Container from 'react-bootstrap/Container';
@@ -7,16 +7,32 @@ import Login from './views/Login';
 import SignUp from './views/SignUp';
 import AlertMessage from './components/AlertMessage';
 import { CategoryType, UserType } from './types';
+import { getMe } from './lib/apiWrapper';
 
 
 
 export default function App(){
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') && new Date() < new Date(localStorage.getItem('tokenExp') as string) ? true : false);
     const [loggedInUser, setLoggedInUser] = useState<UserType|null>(null);
 
     const [message, setMessage] = useState<string|null>(null)
     const [category, setCategory] = useState<CategoryType|null>(null)
+
+    useEffect( () => {
+        async function getLoggedInUser(){
+            if (isLoggedIn){
+                const token = localStorage.getItem('token') as string
+                let response = await getMe(token)
+                if (response.data){
+                    setLoggedInUser(response.data)
+                } else {
+                    console.error(response.error)
+                }
+            }
+        }
+        getLoggedInUser();
+    }, [isLoggedIn] )
 
     const logUserIn = (user:UserType) => {
         setIsLoggedIn(true);
