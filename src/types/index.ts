@@ -22,3 +22,20 @@ export type TokenType = {
     token: string,
     tokenExpiration: string
 }
+
+export type CommentType = {
+    id:number,
+    body:string,
+    postId:number,
+    user:UserType
+}
+
+export type PostType = {
+    id:number,
+    title:string,
+    body:string,
+    dateCreated:string,
+    userId:number,
+    author: UserType,
+    comments: CommentType[]
+}

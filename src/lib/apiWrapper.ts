@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { TokenType, UserFormDataType, UserType } from '../types';
+import { TokenType, UserFormDataType, UserType, PostType } from '../types';
 
 
 const baseURL: string = 'https://kekambas-137-api.onrender.com';
 const userEndpoint: string = '/users';
 const tokenEndpoint: string = '/token';
+const postEndpoint: string = '/posts';
 
 
 const apiClientNoAuth = () => axios.create({
@@ -82,8 +83,26 @@ async function getMe(token:string): Promise<APIResponse<UserType>> {
 }
 
 
+async function getAllPosts(): Promise<APIResponse<PostType[]>> {
+    let error;
+    let data;
+    try {
+        const response = await apiClientNoAuth().get(postEndpoint)
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.message
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { error, data }
+}
+
+
 export {
     register,
     login,
     getMe,
+    getAllPosts,
 }

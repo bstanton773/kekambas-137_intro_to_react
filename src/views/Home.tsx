@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PostCard from '../components/PostCard';
 import PostForm from '../components/PostForm';
-import { UserType } from '../types';
+import { PostType, UserType } from '../types';
+import { getAllPosts } from '../lib/apiWrapper';
 
 
 type Post = {
@@ -16,8 +17,21 @@ type HomeProps = {
 
 export default function Home({ isLoggedIn, currentUser }: HomeProps) {
 
-    const [posts, setPosts] = useState<Post[]>([]);
+    const [posts, setPosts] = useState<PostType[]>([]);
     const [newPost, setNewPost] = useState<Post>({id: 1, title: ''})
+
+    useEffect( () => {
+        async function fetchData(){
+            const response = await getAllPosts();
+            console.log(response);
+            if (response.data){
+                let posts = response.data;
+                setPosts(posts)
+            }
+        }
+
+        fetchData();
+    }, [] )
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value, event.target.name);
@@ -27,7 +41,7 @@ export default function Home({ isLoggedIn, currentUser }: HomeProps) {
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 
-        setPosts([...posts, newPost])
+        // setPosts([...posts, newPost])
         setNewPost({id: posts.length + 2, title: ''})
     }
 
