@@ -151,6 +151,23 @@ async function editPostById(token:string, postId:string|number, editedPostData:P
 }
 
 
+async function deletePostById(token:string, postId:string|number): Promise<APIResponse<string>> {
+    let error;
+    let data;
+    try{
+        const response = await apiClientTokenAuth(token).delete(postEndpoint + '/' + postId);
+        data = response.data.success
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { error, data }
+}
+
+
 export {
     register,
     login,
@@ -159,4 +176,5 @@ export {
     createPost,
     getPostById,
     editPostById,
+    deletePostById,
 }
