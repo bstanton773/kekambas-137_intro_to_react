@@ -4,10 +4,11 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 
 type NavigationProps = {
-    isLoggedIn: boolean
+    isLoggedIn: boolean,
+    handleClick: () => void
 }
 
-export default function Navigation({ isLoggedIn }: NavigationProps) {
+export default function Navigation({ isLoggedIn, handleClick }: NavigationProps) {
     // console.log(isLoggedIn);
     return (
         <Navbar expand='lg' bg='dark' data-bs-theme='dark'>
@@ -19,7 +20,7 @@ export default function Navigation({ isLoggedIn }: NavigationProps) {
                         { isLoggedIn ? (
                             <>
                                 <Nav.Link href='/'>Create Post</Nav.Link>
-                                <Nav.Link href='/'>Log Out</Nav.Link>
+                                <Nav.Link as={Link} to='/' onClick={handleClick}>Log Out</Nav.Link>
                             </>
                         ) : (
                             <>

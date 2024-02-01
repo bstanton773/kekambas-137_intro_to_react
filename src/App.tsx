@@ -23,6 +23,14 @@ export default function App(){
         setLoggedInUser(user)
     }
 
+    const logUserOut = () => {
+        setIsLoggedIn(false);
+        setLoggedInUser(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenExp');
+        flashMessage("You have logged out", "primary");
+    }
+
     const flashMessage = (newMessage:string|null, newCategory:CategoryType|null) => {
         setMessage(newMessage);
         setCategory(newCategory);
@@ -30,7 +38,7 @@ export default function App(){
 
     return (
         <div>
-            <Navigation isLoggedIn={isLoggedIn} />
+            <Navigation isLoggedIn={isLoggedIn} handleClick={logUserOut} />
             <Container>
                 {message && <AlertMessage message={message} category={category} flashMessage={flashMessage}/>}
                 <Routes>
