@@ -59,7 +59,7 @@ export default function Home({ isLoggedIn, currentUser, flashMessage }: HomeProp
             <h1 className='text-center'>{ isLoggedIn && currentUser?.username ? 'Welcome back ' + currentUser.username : 'Hello and Welcome' }</h1>
             { isLoggedIn && <Button className='w-100 mb-3' variant='outline-primary' onClick={() => setDisplayForm(!displayForm)}>{ displayForm ? 'Hide Form' : '+Add Post'} </Button> }
             { displayForm && <PostForm handleChange={handleInputChange} newPost={newPost} handleFormSubmit={handleFormSubmit} />}
-            { posts.map( p =>  <PostCard post={p} key={p.id} /> ) }
+            { posts.map( p =>  <PostCard post={p} key={p.id} currentUser={currentUser} /> ) }
         </>
     )
 }
