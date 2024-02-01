@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TokenType, UserFormDataType, UserType, PostType } from '../types';
+import { TokenType, UserFormDataType, UserType, PostType, PostFormDataType } from '../types';
 
 
 const baseURL: string = 'https://kekambas-137-api.onrender.com';
@@ -100,9 +100,27 @@ async function getAllPosts(): Promise<APIResponse<PostType[]>> {
 }
 
 
+async function createPost(token:string, newPost:PostFormDataType): Promise<APIResponse<PostType>> {
+    let error;
+    let data;
+    try {
+        const response = await apiClientTokenAuth(token).post(postEndpoint, newPost);
+        data = response.data
+    } catch (err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { error, data }
+}
+
+
 export {
     register,
     login,
     getMe,
     getAllPosts,
+    createPost,
 }

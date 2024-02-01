@@ -58,7 +58,7 @@ export default function App(){
             <Container>
                 {message && <AlertMessage message={message} category={category} flashMessage={flashMessage}/>}
                 <Routes>
-                    <Route path='/' element={<Home isLoggedIn={isLoggedIn} currentUser={loggedInUser} />} />
+                    <Route path='/' element={<Home isLoggedIn={isLoggedIn} currentUser={loggedInUser} flashMessage={flashMessage} />} />
                     <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn}/>} />
                     <Route path='/signup' element={<SignUp flashMessage={flashMessage} />} />
                 </Routes>

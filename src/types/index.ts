@@ -39,3 +39,8 @@ export type PostType = {
     author: UserType,
     comments: CommentType[]
 }
+
+export type PostFormDataType = {
+    title:string,
+    body:string
+}
